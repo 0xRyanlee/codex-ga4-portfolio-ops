@@ -1,0 +1,39 @@
+{
+  "contract_version": "0.1",
+  "projects": [
+    {
+      "project_key": "example-web",
+      "surface_type": "web",
+      "host": "example.com",
+      "stream_strategy": "independent_web_stream",
+      "measurement_id": "G-XXXXXXXXXX",
+      "journey": "discover -> CTA -> contact or purchase",
+      "events": [
+        {
+          "name": "cta_click",
+          "parameters": ["cta_id", "cta_location", "destination_type"]
+        }
+      ],
+      "cta_locations": ["home_hero", "site_nav", "pricing"],
+      "status": "planned",
+      "open_questions": []
+    },
+    {
+      "project_key": "example-macos",
+      "surface_type": "macos",
+      "bundle_id": "com.example.product",
+      "stream_strategy": "firebase_app_stream",
+      "measurement_id": null,
+      "journey": "install -> onboarding -> first successful action",
+      "events": [
+        {
+          "name": "screen_view",
+          "parameters": ["screen_name", "screen_class"]
+        }
+      ],
+      "cta_locations": [],
+      "status": "planned",
+      "open_questions": ["Confirm release toolchain and Firebase app registration"]
+    }
+  ]
+}

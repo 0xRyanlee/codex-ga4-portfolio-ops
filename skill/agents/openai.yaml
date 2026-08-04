@@ -1,0 +1,5 @@
+interface:
+  display_name: "Codex GA4 Portfolio Ops"
+  short_description: "GA4 setup, naming, CTA tracking, and QA"
+  brand_color: "#0F766E"
+  default_prompt: "Use $codex-ga4-portfolio-ops to audit and implement GA4 across my web and native products."
