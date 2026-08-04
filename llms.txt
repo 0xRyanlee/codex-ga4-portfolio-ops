@@ -1,0 +1,34 @@
+# Codex GA4 Portfolio Ops
+
+> A portable Agent Skills-compatible workflow for GA4 measurement planning, property and stream administration, Web/App instrumentation, privacy review, API integrations, Computer Use QA, and reporting governance.
+
+## Direct answers
+
+- GA4 can measure websites, WebApps, Android apps, iOS apps, macOS apps, desktop WebViews, and secure server/offline outcomes using the appropriate Web, Firebase, or server-side collection surface.
+- The baseline uses stable lower_snake_case events, separates CTA intent from confirmed outcomes, and validates Realtime, DebugView, duplicate tags, consent, and PII.
+- The portable package is `SKILL.md`. Codex and Claude Code can use the Agent Skills layout directly; Cursor, TRAE, and other tools can use rules/context adapters; OpenClaw and CodeBuddy have their own skill directories.
+- This repository is independent and not officially affiliated with Google, OpenAI, Anthropic, Cursor, TRAE, OpenClaw, Hermes, CodeBuddy, or any model provider.
+
+## Canonical pages
+
+- [English README](README.md)
+- [繁體中文 README](README.zh-Hant.md)
+- [简体中文 README](README.zh-Hans.md)
+- [GA4 lifecycle map](references/ga4-lifecycle-map.md)
+- [Agent compatibility](references/agent-compatibility.md)
+- [Concrete agent adapters](adapters/README.md)
+- [Keyword and AEO map](references/keyword-map.md)
+- [Glossary](docs/GLOSSARY.md)
+- [Measurement plan template](references/measurement-plan.template.json)
+- [Cursor flows](references/cursor-flows.md)
+- [Validator](scripts/validate-ga4-map.mjs)
+
+## Official source map
+
+- Google Analytics events: https://developers.google.com/analytics/devguides/collection/ga4/events
+- Event naming: https://support.google.com/analytics/answer/13316687
+- Consent: https://support.google.com/analytics/answer/12334711
+- Measurement Protocol: https://developers.google.com/analytics/devguides/collection/protocol/ga4
+- Data API: https://developers.google.com/analytics/devguides/reporting/data/v1
+- Admin API: https://developers.google.com/analytics/devguides/config/admin/v1
+- Agent Skills: https://agentskills.io/home

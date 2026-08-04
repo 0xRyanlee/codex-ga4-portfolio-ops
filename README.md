@@ -1,92 +1,170 @@
 # Codex GA4 Portfolio Ops
 
-Reusable GA4 measurement, administration, instrumentation, and QA workflow for Codex. It is designed for a portfolio that contains public websites, WebApps, product landing pages, macOS/Android/iOS apps, and desktop WebViews.
+Portable GA4 measurement, administration, instrumentation, privacy review, API integration, Computer Use QA, and reporting governance for websites, WebApps, Android/iOS/macOS apps, desktop WebViews, server-side outcomes, and AI coding agents.
 
-The distinctive part is operational: the browser-admin workflow uses Codex Computer Use, re-derives the visible control before every action, and prints a sanitized action log with button labels, semantic locators, and coordinate fallbacks. The code workflow keeps the same event contract across products so reports remain comparable.
+**One-sentence answer:** this repository gives an agent a repeatable way to plan, implement, test, govern, and explain Google Analytics 4 across a multi-product portfolio without leaking secrets or confusing a click with a conversion.
 
-## What is included
+Languages: [繁體中文](README.zh-Hant.md) · [简体中文](README.zh-Hans.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt-BR.md) · [Français](README.fr.md) · [Deutsch](README.de.md)
 
-- Property and data-stream naming rules.
-- `lower_snake_case` event and CTA conventions.
-- A reusable baseline for `cta_click`, contact, lead, download, account, commerce, content, and native-screen events.
-- Web/WebApp, Firebase app-stream, macOS, Android, iOS, and desktop-WebView decisions.
-- Codex Computer Use runbook for visible GA4 admin actions and position logging.
-- Reusable cursor flows for property creation, Web stream edits, batch stream setup, and post-deploy verification.
-- Realtime/DebugView, duplicate-event, Enhanced Measurement, and build/runtime acceptance.
-- A dependency-free Node validator for measurement-plan JSON.
+## What is this?
 
-## The portfolio this playbook came from
+This is an open, opinionated playbook built around the Agent Skills `SKILL.md` format. It covers the full GA4 lifecycle:
 
-This playbook is deliberately shaped by a real multi-product network rather than a single brochure site:
+- measurement strategy, property/stream architecture, and project inventory;
+- Web `gtag.js`, Google Tag Manager, framework integrations, SPA page views, and Enhanced Measurement;
+- Firebase Analytics for Android, iOS, and macOS app surfaces;
+- event naming, recommended/custom events, parameters, CTA tracking, key events, ecommerce, funnels, audiences, and attribution;
+- Consent Mode, PII review, data retention, deletion, internal traffic, unwanted referrals, access roles, and credential hygiene;
+- Google Ads, Search Console, Firebase, BigQuery, Looker Studio, CRM/commerce, Data API, Admin API, and Measurement Protocol;
+- Realtime, DebugView, Tag Assistant, browser network checks, app debug builds, duplicate-event detection, regression testing, and change logs;
+- visible Codex Computer Use flows, route checkpoints, re-derived locators, conditional coordinate fallbacks, and printed action logs.
 
-- [Hyphen Network](https://hyphen-network.com/) is the umbrella for a set of AI, agent, and developer-tool surfaces. Its product pages include Mindset, Sparkie, Cuckoo, D0, Paperclip, DevAssets, and related tool/console experiences. Each independent product host should remain analytically legible.
-- [SideProject](https://sideproject.hyphen-network.com/) is a separate product-experiment and sharing surface. Its official domain is the measurement source of truth; deployment-provider preview hosts are not production streams.
-- [TAIEC](https://taiec.site.com.tw/) is a dedicated page surface under `site.com.tw`, useful as a tenant/page-specific measurement example rather than being silently mixed into the site shell.
-- [Store](https://store.com.tw/) and [Party](https://party.com.tw/) are commerce/event-oriented surfaces where CTA intent must remain distinct from lead, checkout, purchase, and refund outcomes.
-- [QuoteMe](https://quoteme.store.com.tw/), [Prophet](https://prophet.school.com.tw/), and [MOMOTOY](https://momotoy.co/) illustrate why a portfolio needs an explicit host inventory before anyone creates a GA4 stream.
+The full lifecycle checklist is in [`references/ga4-lifecycle-map.md`](references/ga4-lifecycle-map.md). The event/CTA contract is in [`references/event-and-cta-standard.md`](references/event-and-cta-standard.md).
 
-These examples are public-facing context, not an assertion that every listed host has the same current release state. Verify the live host and repository before changing its GA4 configuration.
+## Why this is trustworthy enough to reuse
 
-## Search terms and discovery
+The repository is designed to be inspectable before execution:
 
-The README uses the language practitioners actually use when looking for this workflow: `GA4`, `Google Analytics 4`, `GA4 implementation`, `GA4 setup`, `GA4 tracking`, `GA4 event tracking`, `GA4 measurement plan`, `GA4 tracking plan`, `GA4 conversion tracking`, `GA4 custom events`, `GA4 recommended events`, `CTA tracking`, `click tracking`, `Google Tag Manager`, `GTM`, `gtag.js`, `data layer`, `Enhanced Measurement`, `GA4 DebugView`, `Realtime report`, `key events`, `cross-domain tracking`, `Firebase Analytics`, `Android analytics`, `iOS analytics`, `macOS analytics`, `desktop app analytics`, `WebView analytics`, `analytics QA`, `tracking audit`, `measurement validation`, and `Codex Computer Use`.
-
-These are discoverability and high-intent topic clusters, not a paid keyword-volume report. Before spending on SEO or ads, validate volume and competition in Google Keyword Planner or Search Console. Keep the terms in useful headings and explanations; do not turn the README into keyword stuffing.
-
-## Use with Codex
-
-The installed skill is `codex-ga4-portfolio-ops`. It is intended for Codex and explicitly uses Computer Use for the visible Google Analytics admin console. Start with a request such as:
-
-```text
-Use $codex-ga4-portfolio-ops to audit these projects, propose the GA4 measurement map, instrument the approved surfaces, and verify Realtime/DebugView. Record every Computer Use button and position.
-```
-
-For local skill use, place the skill directory under the Codex skills directory. This repository keeps the same `SKILL.md`, references, and validator in a browsable public layout so another agent can inspect or package it.
+1. `SKILL.md` contains the minimum core workflow; detailed variants are progressive-disclosure references.
+2. `scripts/validate-ga4-map.mjs` checks stream strategy, event names, CTA parameters, key-event references, privacy fields, integration status, and QA metadata.
+3. Public files contain no Google account credentials, API secrets, cookies, tokens, or product-internal Measurement IDs.
+4. Admin flows stop on account/property/host mismatch and record visible evidence rather than claiming a UI action happened.
+5. Computer Use pacing is for UI animation and network settling only. There is no stealth timing, random jitter, DOM injection, hidden API, or bot-detection bypass.
+6. External platform names are compatibility targets and search terms, not claims of endorsement, partnership, or identical permissions.
 
 ## Quick start
 
 ```bash
-node skill/scripts/validate-ga4-map.mjs skill/references/measurement-plan.template.json
+node scripts/validate-ga4-map.mjs references/measurement-plan.template.json
 ```
 
-Then copy the template to a private project workspace and replace the example entries with real hosts, app IDs, stream decisions, events, and CTA locations. Keep account-specific Measurement IDs out of public issues and examples unless deliberately published.
+Copy the template into a private project workspace. Add real hosts, app package/bundle IDs, stream decisions, events, privacy state, integrations, QA evidence, and an owner. Keep account-specific details out of public issues and examples.
 
-## Design principles
+### Codex
 
-1. One independent public host, one Web stream by default.
-2. One intentional cross-domain journey, one documented cross-domain configuration.
-3. Native Android, iOS, and macOS apps use Firebase app streams; a native app is not a Web stream.
-4. Event names describe business meaning, not button styling or translation text.
-5. `cta_click` records intent; success events record confirmed outcomes.
-6. A green build is necessary but not sufficient: Realtime/DebugView and duplicate-event checks are part of acceptance.
-7. No API secret, service credential, cookie, token, or PII belongs in this repository.
+Install or copy the skill directory to `$CODEX_HOME/skills/codex-ga4-portfolio-ops` (normally `~/.codex/skills/codex-ga4-portfolio-ops`), then ask:
 
-## FAQ
+```text
+Use $codex-ga4-portfolio-ops to audit my GA4 portfolio, update the measurement plan, instrument approved projects, run the validator, and verify Realtime/DebugView. Record every Computer Use action and print the sanitized log.
+```
 
-### Can GA4 track a web app, macOS app, or Android app?
+### Claude Code, OpenClaw, CodeBuddy, and other clients
 
-Yes, but the collection surface differs. Websites and WebApps use a Web data stream; native macOS, Android, and iOS apps use a Firebase app stream and the platform SDK. A desktop app that is mostly a WebView should first measure the web surface and add native events only for actions the WebView cannot represent.
+Use the same `SKILL.md` where the client supports Agent Skills. Otherwise use the corresponding rules/skills adapter described in [`references/agent-compatibility.md`](references/agent-compatibility.md). Do not assume that a client has browser control, Google credentials, or the Codex `sky` runtime.
 
-### Does this automate Google Analytics without opening every page manually?
+## Agent and tool compatibility
 
-It reuses route-aware cursor flows and batches independent property/stream forms. The flow still re-checks the visible account, property, host, label, and result at state boundaries. Element indices are refreshed; recorded coordinates are conditional fallbacks tied to a viewport, not blind replay commands.
+| Agent, IDE, or platform | Integration surface | Link |
+| --- | --- | --- |
+| OpenAI Codex | Native Agent Skills; this repo is authored and tested for Codex Computer Use | [Codex](https://developers.openai.com/codex) · [OpenAI skills](https://github.com/openai/skills) |
+| Claude / Claude Code | Agent Skills and `.claude/skills/<name>/SKILL.md` | [Claude Skills](https://support.claude.com/en/articles/12512176-what-are-skills) · [Claude Code](https://code.claude.com/docs/en/slash-commands) |
+| Cursor | `.cursor/rules/*.mdc` Project Rules adapter | [Cursor Rules](https://docs.cursor.com/context/rules) |
+| TRAE / TRAE Work / TRAE IDE | rules, context, MCP, or current Agent Skills import path | [TRAE](https://www.trae.ai/) · [TRAE blog](https://www.trae.ai/blog) |
+| OpenClaw | workspace/personal/managed `SKILL.md` roots and agent allowlists | [OpenClaw Skills](https://docs.openclaw.ai/skills) |
+| Hermes Agent | `skills/` or `optional-skills/` with Hermes metadata adapter | [Hermes Agent](https://github.com/NousResearch/hermes-agent) |
+| Tencent CodeBuddy | `.codebuddy/skills/` and plugin/CLI surfaces | [CodeBuddy](https://www.codebuddy.ai/docs/ide/User-guide/Overview) |
+| VS Code / Copilot / OpenCode / Goose / Amp | Agent Skills, rules, or prompt adapter depending on client/version | [VS Code Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills) |
+| MCP clients | Tool/data connection layer; not a replacement for the GA4 event contract | [Model Context Protocol](https://modelcontextprotocol.io/) |
 
-### Does the human-like pacing bypass bot detection?
+The portable format follows the [Agent Skills open standard](https://agentskills.io/home): a `SKILL.md` with optional `scripts/`, `references/`, and `assets/`, loaded progressively. Each client still controls its own permission model, tool surface, and installation path.
 
-No. The runbook permits only bounded waits needed for visible UI animation, navigation, and network completion. It explicitly rejects stealth timing, random jitter, hidden APIs, DOM injection, and security-control bypass. This is observable, auditable Computer Use for an authorized account.
+## AI model and capability vocabulary
 
-### What should be tested after GA4 implementation?
+This workflow is model-agnostic. Its discovery terms include large language models, LLM, GPT, GPT-5 family, Claude Opus/Sonnet/Haiku, Gemini, DeepSeek, Qwen, Llama, Mistral, Grok, Gemma, reasoning models, multimodal/vision models, agentic coding, tool calling, function calling, structured outputs, JSON schema, MCP, browser automation, Computer Use, shell execution, code editing, web search, RAG, context engineering, memory, subagents, evaluation, tracing, and human-in-the-loop approval.
 
-Check one tag, `page_view` in Realtime, a known `cta_click` in DebugView, expected parameters, a confirmed success event exactly once, and the absence of duplicate loaders/events. Also document Enhanced Measurement and any real cross-domain journey.
+Use current vendor model catalogs at invocation time; names and availability change. Reference catalogs: [OpenAI models](https://developers.openai.com/api/docs/models) · [Claude models](https://platform.claude.com/docs/en/about-claude/models/overview) · [Google DeepMind models](https://deepmind.google/models/) · [DeepSeek](https://api-docs.deepseek.com/) · [Qwen](https://qwenlm.github.io/) · [Llama](https://www.llama.com/) · [Mistral](https://docs.mistral.ai/) · [xAI](https://docs.x.ai/).
 
-## Official references
+## The product portfolio this playbook came from
 
-- [Google Analytics event naming](https://support.google.com/analytics/answer/13316687)
-- [GA4 recommended events](https://developers.google.com/analytics/devguides/collection/ga4/reference/events)
-- [GA4 Web data streams](https://support.google.com/analytics/answer/9304153)
-- [GA4 DebugView](https://support.google.com/analytics/answer/7201382)
+This workflow is shaped by a real multi-product network rather than a single brochure site:
+
+- [Hyphen Network](https://hyphen-network.com/) — an umbrella for AI, agent, developer-tool, and console surfaces, including Mindset, Sparkie, Cuckoo, D0, Paperclip, DevAssets, and related product pages.
+- [SideProject](https://sideproject.hyphen-network.com/) — a separate product-experiment and sharing surface; the official domain is the source of truth, not a deployment preview.
+- [TAIEC](https://taiec.site.com.tw/) — a dedicated page surface under `site.com.tw`, useful for tenant/page-specific measurement.
+- [Store](https://store.com.tw/) and [Party](https://party.com.tw/) — commerce/event-oriented surfaces where CTA intent must remain distinct from leads, checkout, purchase, and refund outcomes.
+- [QuoteMe](https://quoteme.store.com.tw/) · [Prophet](https://prophet.school.com.tw/) · [MOMOTOY](https://momotoy.co/) — public-facing surfaces that demonstrate why a host inventory must precede stream creation.
+
+These links are public context, not a guarantee that every surface has the same current release state. Verify the live host and repository before modifying its measurement.
+
+## AEO quick answers
+
+### Can GA4 track websites, WebApps, macOS apps, and Android apps?
+
+Yes. Websites and WebApps use a Web data stream; native macOS, Android, and iOS apps use Firebase app streams and the platform SDK; a desktop WebView should measure its Web surface first and add native events only for native-only actions.
+
+### What is the baseline event naming rule?
+
+Use stable lower_snake_case event names, keep intent separate from confirmed outcomes, and attach predictable parameters such as `cta_id`, `cta_location`, and `destination_type`.
+
+### What is the difference between `cta_click` and `generate_lead`?
+
+`cta_click` records that a user expressed intent; `generate_lead` records that a lead was actually submitted and accepted. They should not be treated as the same conversion.
+
+### Can one skill run in every AI coding tool?
+
+The core `SKILL.md` is portable where Agent Skills are supported. Cursor, TRAE, and other tools may need a rules or context adapter; browser control, credentials, and API permissions remain runtime-specific.
+
+### Does the Computer Use workflow bypass bot detection?
+
+No. It uses visible, auditable UI actions, fresh state checks, bounded UI-settle waits, and explicit stop conditions. It does not use stealth timing, random jitter, DOM injection, hidden APIs, or security-control bypass.
+
+### Does Measurement Protocol replace Web or Firebase collection?
+
+No. It is for secure server/offline supplementation and requires server-side credential handling. Basic Web or Firebase collection remains the normal foundation.
+
+### How is a GA4 implementation accepted?
+
+Verify one expected tag, `page_view` in Realtime, a known `cta_click` in DebugView with parameters, a confirmed outcome exactly once, no duplicate loader/event, documented consent behavior, and any intended cross-domain journey.
+
+## Search and AEO keyword index
+
+The repo intentionally uses high-intent phrases in useful context: `GA4`, `Google Analytics 4`, `GA4 implementation`, `GA4 setup`, `GA4 configuration`, `GA4 management`, `GA4 audit`, `GA4 tracking`, `GA4 measurement plan`, `GA4 tracking plan`, `GA4 event tracking`, `GA4 custom events`, `GA4 recommended events`, `CTA tracking`, `click tracking`, `conversion tracking`, `key events`, `Enhanced Measurement`, `gtag.js`, `Google Tag Manager`, `GTM`, `data layer`, `DebugView`, `Realtime report`, `cross-domain tracking`, `Consent Mode`, `PII in analytics`, `Firebase Analytics`, `Android analytics`, `iOS analytics`, `macOS analytics`, `desktop app analytics`, `WebView analytics`, `Measurement Protocol`, `GA4 Data API`, `GA4 Admin API`, `BigQuery export`, `Looker Studio dashboard`, `Google Ads linking`, `analytics QA`, `tracking validation`, `Agent Skills`, `SKILL.md`, `Codex skill`, `Claude Code skill`, `Cursor rules`, `TRAE rules`, `OpenClaw skill`, `Hermes Agent skill`, `CodeBuddy skills`, `MCP`, `Computer Use`, `AI coding agent`, and `AI analytics automation`.
+
+Localized keyword clusters are in [`references/keyword-map.md`](references/keyword-map.md), with 繁體中文、简体中文、日本語、한국어、Español、Português、Français、Deutsch terms. This is a discoverability map, not a paid search-volume report; use Search Console or Keyword Planner before spending on SEO or ads.
+
+## Files and resources
+
+- [`skill/SKILL.md`](skill/SKILL.md) — portable core instructions.
+- [`skill/agents/openai.yaml`](skill/agents/openai.yaml) — Codex UI metadata.
+- [`references/ga4-lifecycle-map.md`](references/ga4-lifecycle-map.md) — full GA4 strategy-to-operations map.
+- [`references/agent-compatibility.md`](references/agent-compatibility.md) — runtime classification and adapters.
+- [`adapters/README.md`](adapters/README.md) — concrete Codex, Claude Code, Cursor, TRAE, OpenClaw, Hermes, and CodeBuddy adapter files.
+- [`references/event-and-cta-standard.md`](references/event-and-cta-standard.md) — event naming and CTA schema.
+- [`references/cursor-flows.md`](references/cursor-flows.md) — executed admin routes and safe fast-path hints.
+- [`references/measurement-plan.template.json`](references/measurement-plan.template.json) — inventory and governance template.
+- [`scripts/validate-ga4-map.mjs`](scripts/validate-ga4-map.mjs) — dependency-free validator.
+- [`docs/GLOSSARY.md`](docs/GLOSSARY.md) — GA4, AEO, Agent Skills, MCP, and analytics definitions.
+- [`llms.txt`](llms.txt) — compact retrieval-oriented summary.
+
+## Official source map
+
+### Google Analytics
+
+- [Set up GA4 events](https://developers.google.com/analytics/devguides/collection/ga4/events)
+- [Event naming rules](https://support.google.com/analytics/answer/13316687)
+- [Cross-domain measurement](https://support.google.com/analytics/answer/10071811)
+- [Consent type](https://support.google.com/analytics/answer/12334711)
+- [Introduction to consent management](https://support.google.com/analytics/answer/12329599)
+- [Measurement Protocol](https://developers.google.com/analytics/devguides/collection/protocol/ga4)
+- [Google Analytics Data API](https://developers.google.com/analytics/devguides/reporting/data/v1)
+- [Google Analytics Admin API](https://developers.google.com/analytics/devguides/config/admin/v1)
+- [BigQuery export](https://support.google.com/analytics/answer/9823238)
+- [Google Ads linking](https://support.google.com/analytics/answer/9379420)
 - [Firebase Analytics](https://firebase.google.com/docs/analytics)
+- [Firebase DebugView](https://firebase.google.com/docs/analytics/debugview)
 
-## Status
+### Standards and agent ecosystems
 
-This is a practical, opinionated v0.1 playbook. Google Analytics UI labels and platform SDK details can change; verify the current official documentation during each live admin run.
+- [Agent Skills overview](https://agentskills.io/home) · [specification](https://agentskills.io/specification)
+- [OpenAI Codex](https://developers.openai.com/codex) · [OpenAI skills catalog](https://github.com/openai/skills)
+- [Claude Code skills](https://code.claude.com/docs/en/slash-commands)
+- [Cursor Project Rules](https://docs.cursor.com/context/rules)
+- [TRAE](https://www.trae.ai/)
+- [OpenClaw Skills](https://docs.openclaw.ai/skills)
+- [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+- [CodeBuddy skills](https://www.codebuddy.ai/docs/cli/plugins-reference)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+
+## License and independence
+
+MIT licensed. This is an independent community playbook, not official Google Analytics, OpenAI, Anthropic, Cursor, TRAE, OpenClaw, Hermes, CodeBuddy, or model-provider documentation. Review the source before enabling any skill with filesystem, browser, API, or external-communication permissions.

@@ -1,5 +1,5 @@
 interface:
   display_name: "Codex GA4 Portfolio Ops"
-  short_description: "GA4 setup, naming, CTA tracking, and QA"
+  short_description: "GA4 lifecycle, privacy, APIs, CTA, and agent QA"
   brand_color: "#0F766E"
-  default_prompt: "Use $codex-ga4-portfolio-ops to audit and implement GA4 across my web and native products."
+  default_prompt: "Use $codex-ga4-portfolio-ops to plan, implement, govern, and verify GA4 across my web, native, and agent-operated products."

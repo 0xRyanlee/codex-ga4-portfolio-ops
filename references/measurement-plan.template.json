@@ -12,9 +12,27 @@
         {
           "name": "cta_click",
           "parameters": ["cta_id", "cta_location", "destination_type"]
+        },
+        {
+          "name": "generate_lead",
+          "parameters": ["lead_type", "source_surface"]
         }
       ],
       "cta_locations": ["home_hero", "site_nav", "pricing"],
+      "key_events": ["generate_lead"],
+      "privacy": {
+        "consent_mode": "planned",
+        "pii_review": "pending",
+        "data_retention": "planned",
+        "internal_traffic": "planned"
+      },
+      "integrations": ["realtime", "debugview"],
+      "qa": {
+        "duplicate_tag": "planned",
+        "production_runtime": "planned",
+        "business_outcome": "planned"
+      },
+      "change_owner": "analytics-owner",
       "status": "planned",
       "open_questions": []
     },
@@ -29,9 +47,27 @@
         {
           "name": "screen_view",
           "parameters": ["screen_name", "screen_class"]
+        },
+        {
+          "name": "tutorial_complete",
+          "parameters": ["tutorial_id"]
         }
       ],
       "cta_locations": [],
+      "key_events": ["tutorial_complete"],
+      "privacy": {
+        "consent_mode": "planned",
+        "pii_review": "pending",
+        "data_retention": "planned",
+        "internal_traffic": "planned"
+      },
+      "integrations": ["firebase", "debugview"],
+      "qa": {
+        "duplicate_tag": "planned",
+        "production_runtime": "planned",
+        "business_outcome": "planned"
+      },
+      "change_owner": "analytics-owner",
       "status": "planned",
       "open_questions": ["Confirm release toolchain and Firebase app registration"]
     }

@@ -1,6 +1,6 @@
 ---
 name: codex-ga4-portfolio-ops
-description: Use when creating, administering, instrumenting, auditing, or testing GA4 across a portfolio of websites, web apps, macOS desktop apps, Android apps, or WebViews. This Codex skill standardizes property and stream naming, lower_snake_case events, CTA parameters, cross-domain decisions, Computer Use admin actions, action-position logging, and Realtime/DebugView acceptance.
+description: Use when planning, creating, administering, instrumenting, auditing, reporting on, integrating, privacy-reviewing, or testing GA4 across websites, WebApps, macOS desktop apps, Android/iOS apps, WebViews, server-side/offline flows, or agent-operated repositories. The Agent Skills-compatible workflow covers properties, streams, events, CTA/conversion design, consent, PII, APIs, Google Ads, BigQuery, Data API, Admin API, Measurement Protocol, Computer Use, cursor flows, and Realtime/DebugView QA.
 ---
 
 # Codex GA4 Portfolio Ops
@@ -8,6 +8,8 @@ description: Use when creating, administering, instrumenting, auditing, or testi
 ## Overview
 
 Use this skill as the portfolio-level operating procedure for GA4. It separates the reusable measurement contract from product-specific implementation, and it records every admin-console action so a later run can reproduce or audit the work. The admin-console portion is explicitly for Codex Computer Use; code changes belong in the target repository.
+
+Read `references/ga4-lifecycle-map.md` for the full strategy, privacy, integration, reporting, and operations checklist. Read `references/agent-compatibility.md` when the caller is Claude Code, Cursor, TRAE, OpenClaw, Hermes Agent, CodeBuddy, VS Code/Copilot, OpenCode, Goose, Amp, or another Agent Skills-compatible runtime. Read `references/keyword-map.md` when writing public documentation or AEO content.
 
 ## Operating rules
 
@@ -19,6 +21,9 @@ Use this skill as the portfolio-level operating procedure for GA4. It separates 
 - Treat an intent event and a success event as different things: `cta_click` means a click; `generate_lead`, `sign_up`, `begin_checkout`, and `purchase` mean a later business outcome.
 - Record Computer Use evidence as structured rows: timestamp, project, page, visible label, semantic locator or `element_index`, coordinate fallback, action, result, and verification state. Re-query the live UI before every action; element indices are not stable.
 - Use `apply_patch` for repository edits and run the target repository's available lint/build/runtime checks. Do not widen a patch to fix unrelated worktree errors.
+- Treat the measurement plan as a versioned contract: schema, consent, key events, integrations, QA state, owner, and deprecation notes travel with the code change.
+- Use the Google Analytics Admin API for governed repeatable configuration reads/writes, the Data API for reports/realtime/funnels, and Measurement Protocol only for secure server/offline supplementation. Prefer official APIs over ad-hoc scraping when an approved credential path exists.
+- Keep legal/privacy review, access roles, retention, deletion, internal traffic, unwanted referrals, Google Signals, and Consent Mode as explicit checklist items; this skill is not legal advice.
 
 ## Workflow
 
@@ -27,6 +32,8 @@ Use this skill as the portfolio-level operating procedure for GA4. It separates 
 Create or update a measurement-plan JSON using `references/measurement-plan.template.json`. For every project record:
 
 `project_key`, public host or app package/bundle ID, surface type (`web`, `webapp`, `android`, `ios`, `macos`, or `desktop_webview`), owner, intended journey, stream strategy, current tag/SDK state, and open questions.
+
+Also record `privacy`, `key_events`, `integrations`, `qa`, and `change_owner`. Run `scripts/validate-ga4-map.mjs` before implementation and again after the event map changes.
 
 Resolve these decisions before admin work:
 
@@ -53,6 +60,8 @@ Start with the baseline event set and extend only when a product decision needs 
 
 Use the detailed naming and CTA rules in `references/event-and-cta-standard.md`. Run `scripts/validate-ga4-map.mjs` against the plan before implementation.
 
+For the complete lifecycle, check strategy, collection, schema, privacy, integrations, APIs, QA, reporting, and operations in `references/ga4-lifecycle-map.md`.
+
 ### 3. Implement the smallest useful layer
 
 For a Web or WebApp surface:
@@ -69,6 +78,19 @@ For Android, iOS, or macOS:
 2. Map screen navigation to `screen_view`; map native-only actions to the same product event vocabulary used on the web.
 3. Keep the app instance ID and SDK configuration appropriate for the platform. Never ship a Measurement Protocol secret.
 4. Verify on a debug build/device with the platform's debug mechanism and GA4 DebugView.
+
+For server-side/offline paths:
+
+1. Keep client tagging or Firebase collection as the baseline whenever available.
+2. Use Measurement Protocol only to supplement confirmed server/offline outcomes.
+3. Keep `api_secret` and service credentials in a server-side secret manager, never in a bundle, skill, public repo, or log.
+4. Validate identity joining, timestamp, consent, deduplication, and attribution before production use.
+
+For reporting and integrations:
+
+1. Mark only true business outcomes as key events.
+2. Link Google Ads, Search Console, Firebase, BigQuery, Looker Studio, CRM, or commerce systems only when the reporting question and permissions are documented.
+3. Use the Admin API for configuration governance and the Data API for reports; include dry-run, quota, retry, authorization, and audit controls.
 
 ### 4. Admin-console work with Codex Computer Use
 
@@ -124,6 +146,8 @@ Every run should leave:
 2. A naming and event map, including CTA locations.
 3. A code diff or explicit no-code decision.
 4. A Computer Use action log for admin changes, including button labels/positions when used.
-5. Realtime/DebugView evidence and unresolved follow-ups.
+5. Privacy/consent/PII and access-control status.
+6. Integration/API/reporting status.
+7. Realtime/DebugView evidence, regression checks, and unresolved follow-ups.
 
 Use the public playbook repository's README as a shareable introduction, but keep account-specific IDs and internal project notes in the target workspace's private contract.

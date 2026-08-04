@@ -1,0 +1,22 @@
+---
+description: Apply the Codex GA4 Portfolio Ops measurement, privacy, event naming, and QA contract when editing analytics code or planning GA4 changes.
+globs:
+  - "**/*analytics*"
+  - "**/*tracking*"
+  - "**/layout.*"
+  - "**/app/**"
+alwaysApply: false
+---
+
+# GA4 measurement adapter for Cursor
+
+Read the repository's `skill/SKILL.md` and the relevant files in `references/` before changing analytics. Use the measurement plan as the contract.
+
+- Use one tag per runtime surface and verify the production host.
+- Use lower_snake_case events and stable CTA parameters: `cta_id`, `cta_location`, `destination_type`.
+- Keep CTA intent separate from confirmed outcomes such as `generate_lead`, `sign_up`, `purchase`, and `refund`.
+- Review Consent Mode, PII, internal traffic, retention, and cross-domain behavior before production.
+- Run `node scripts/validate-ga4-map.mjs references/measurement-plan.template.json` and the target repository checks.
+- Do not create or expose Measurement Protocol API secrets.
+
+If browser or Google Analytics credentials are unavailable, produce a plan and verification checklist instead of claiming the Admin UI was tested.
