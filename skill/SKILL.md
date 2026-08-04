@@ -89,7 +89,22 @@ For each click or typing action:
 
 Never use hidden browser APIs, DOM injection, or guessed stale indices to bypass the visible UI. The reusable action-log shape is in `references/computer-use-runbook.md`.
 
-### 5. Verify and hand off
+### 5. Reuse cursor flows and batch safely
+
+The executed admin paths are captured as reusable cursor flows in `references/cursor-flows.md`. A flow stores the route, visible labels, expected state transitions, and any evidence-backed coordinate fallback. It is a fast path cache, not permission to blindly replay stale indices.
+
+Before replaying a flow, verify:
+
+1. The current account, property, route signature, viewport, and locale match the flow preconditions.
+2. The visible control label and surrounding state match the expected checkpoint.
+3. The cached `element_index` is re-derived from the current state. Accessibility indices are session-state data, not stable selectors.
+4. A coordinate fallback is used only with the same viewport/layout and only when it was recorded from a visible control. Never guess a coordinate.
+
+For independent streams, prepare a batch queue (`property -> host -> stream name -> verification`) and execute it as short visible batches. Keep the form-fill sequence continuous after the state is stable, but pause at every property/stream creation boundary to capture the result and Measurement ID. A batch must stop on an unexpected dialog, validation error, account change, host mismatch, or missing result.
+
+Use bounded waits for UI animation, navigation, and network completion; prefer an explicit state check over a fixed sleep. A small, documented 150–500 ms settle window can reduce accidental double-clicks. Do not add random mouse jitter, fake hesitation, stealth timing, hidden APIs, or other behavior intended to evade bot detection or bypass a site's security controls. The goal is reliable visible automation and clear evidence, not impersonation.
+
+### 6. Verify and hand off
 
 Acceptance requires both code/runtime and admin-console evidence:
 

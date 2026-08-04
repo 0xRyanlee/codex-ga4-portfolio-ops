@@ -11,6 +11,7 @@ The distinctive part is operational: the browser-admin workflow uses Codex Compu
 - A reusable baseline for `cta_click`, contact, lead, download, account, commerce, content, and native-screen events.
 - Web/WebApp, Firebase app-stream, macOS, Android, iOS, and desktop-WebView decisions.
 - Codex Computer Use runbook for visible GA4 admin actions and position logging.
+- Reusable cursor flows for property creation, Web stream edits, batch stream setup, and post-deploy verification.
 - Realtime/DebugView, duplicate-event, Enhanced Measurement, and build/runtime acceptance.
 - A dependency-free Node validator for measurement-plan JSON.
 
@@ -26,6 +27,12 @@ This playbook is deliberately shaped by a real multi-product network rather than
 
 These examples are public-facing context, not an assertion that every listed host has the same current release state. Verify the live host and repository before changing its GA4 configuration.
 
+## Search terms and discovery
+
+The README uses the language practitioners actually use when looking for this workflow: `GA4`, `Google Analytics 4`, `GA4 implementation`, `GA4 setup`, `GA4 tracking`, `GA4 event tracking`, `GA4 measurement plan`, `GA4 tracking plan`, `GA4 conversion tracking`, `GA4 custom events`, `GA4 recommended events`, `CTA tracking`, `click tracking`, `Google Tag Manager`, `GTM`, `gtag.js`, `data layer`, `Enhanced Measurement`, `GA4 DebugView`, `Realtime report`, `key events`, `cross-domain tracking`, `Firebase Analytics`, `Android analytics`, `iOS analytics`, `macOS analytics`, `desktop app analytics`, `WebView analytics`, `analytics QA`, `tracking audit`, `measurement validation`, and `Codex Computer Use`.
+
+These are discoverability and high-intent topic clusters, not a paid keyword-volume report. Before spending on SEO or ads, validate volume and competition in Google Keyword Planner or Search Console. Keep the terms in useful headings and explanations; do not turn the README into keyword stuffing.
+
 ## Use with Codex
 
 The installed skill is `codex-ga4-portfolio-ops`. It is intended for Codex and explicitly uses Computer Use for the visible Google Analytics admin console. Start with a request such as:
@@ -34,7 +41,7 @@ The installed skill is `codex-ga4-portfolio-ops`. It is intended for Codex and e
 Use $codex-ga4-portfolio-ops to audit these projects, propose the GA4 measurement map, instrument the approved surfaces, and verify Realtime/DebugView. Record every Computer Use button and position.
 ```
 
-For local skill use, place the skill directory under the Codex skills directory. The public `skill/` directory mirrors the same `SKILL.md`, references, and validator so another agent can inspect or package it.
+For local skill use, place the skill directory under the Codex skills directory. This repository keeps the same `SKILL.md`, references, and validator in a browsable public layout so another agent can inspect or package it.
 
 ## Quick start
 
@@ -53,6 +60,24 @@ Then copy the template to a private project workspace and replace the example en
 5. `cta_click` records intent; success events record confirmed outcomes.
 6. A green build is necessary but not sufficient: Realtime/DebugView and duplicate-event checks are part of acceptance.
 7. No API secret, service credential, cookie, token, or PII belongs in this repository.
+
+## FAQ
+
+### Can GA4 track a web app, macOS app, or Android app?
+
+Yes, but the collection surface differs. Websites and WebApps use a Web data stream; native macOS, Android, and iOS apps use a Firebase app stream and the platform SDK. A desktop app that is mostly a WebView should first measure the web surface and add native events only for actions the WebView cannot represent.
+
+### Does this automate Google Analytics without opening every page manually?
+
+It reuses route-aware cursor flows and batches independent property/stream forms. The flow still re-checks the visible account, property, host, label, and result at state boundaries. Element indices are refreshed; recorded coordinates are conditional fallbacks tied to a viewport, not blind replay commands.
+
+### Does the human-like pacing bypass bot detection?
+
+No. The runbook permits only bounded waits needed for visible UI animation, navigation, and network completion. It explicitly rejects stealth timing, random jitter, hidden APIs, DOM injection, and security-control bypass. This is observable, auditable Computer Use for an authorized account.
+
+### What should be tested after GA4 implementation?
+
+Check one tag, `page_view` in Realtime, a known `cta_click` in DebugView, expected parameters, a confirmed success event exactly once, and the absence of duplicate loaders/events. Also document Enhanced Measurement and any real cross-domain journey.
 
 ## Official references
 
