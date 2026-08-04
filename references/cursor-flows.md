@@ -14,6 +14,8 @@ Admin > Data streams > Web > select the exact host > Edit web stream
 
 Observed visible controls include `編輯網站串流設定` and `更新串流`. The saved run recorded these as element-index actions; re-query the current state before using them because indices change after navigation.
 
+Last-run hints (not stable selectors): the edit control was observed at element index `58`, and the update control at `91`. Treat these as a route/debug hint only.
+
 Use this for a production-host correction, such as replacing a deployment preview hostname with the verified public hostname. Do not delete the old stream when a safe edit preserves its Measurement ID and history.
 
 ## Flow B: create a property and Web stream
@@ -32,6 +34,17 @@ Admin > Create
 
 Observed labels in the executed run include `建立`, `資源`, `屬性名稱`, `下一步`, `網站`, `網址`, `串流名稱`, and `建立並繼續`. The flow was reused for multiple product surfaces; only the property name, host, and stream name changed.
 
+The actual batch seed used these canonical names:
+
+```text
+TAIEC   | Web | taiec.site.com.tw
+Mindset | Web | mindset.hyphen-network.com
+Sparkie | Web | sparkie.hyphen-network.com
+Cuckoo  | Web | cuckoo.hyphen-network.com
+```
+
+The host and property must still be verified against the current inventory before submission. The name pattern is reusable; the Admin result is not assumed.
+
 ## Flow C: batch independent product streams
 
 ```text
@@ -46,6 +59,8 @@ prepare queue
 ```
 
 Do not submit the next item until the current result is captured. The executed run used a visible coordinate fallback for one `建立並繼續` control at `[1350, 75]` in a `1440x900` viewport. Treat this as a conditional fallback only; use a fresh semantic locator when available.
+
+Other last-run element-index hints were `37` for the property-form `下一步`, `40` for `建立資源`, and `33` for one stream submission. These are intentionally retained to help a future agent recognize the route, never to skip the fresh-state check.
 
 ## Flow D: verify after code deploy
 
