@@ -18,6 +18,11 @@ try {
   process.exit(2);
 }
 
+if (!plan || typeof plan !== "object" || Array.isArray(plan)) {
+  console.error("GA4 map invalid: root must be an object");
+  process.exit(1);
+}
+
 const projects = Array.isArray(plan.projects) ? plan.projects : [];
 if (!projects.length) errors.push("projects must be a non-empty array");
 
@@ -105,8 +110,11 @@ for (const [projectIndex, project] of projects.entries()) {
       continue;
     }
     for (const parameter of event.parameters) {
-      if (typeof parameter !== "string" || !parameterName.test(parameter)) {
+      if (typeof parameter !== "string" || parameter.length > 40 || !parameterName.test(parameter)) {
         errors.push(`${eventLabel}.parameters contains an invalid parameter name: ${String(parameter)}`);
+      }
+      if (typeof parameter === "string" && reservedPrefixes.some((prefix) => parameter.startsWith(prefix))) {
+        errors.push(`${eventLabel}.parameters uses a reserved prefix: ${parameter}`);
       }
       if (/^(email|phone|full_name|first_name|last_name|token|password|address)$/i.test(String(parameter))) {
         errors.push(`${eventLabel}.parameters may contain direct PII or secrets: ${parameter}`);
